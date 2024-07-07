@@ -1,0 +1,25 @@
+server:
+  port: 8089
+
+spring:
+  jmx:
+    enabled: false
+  cloud:
+    gateway:
+      routes:
+        - id: websocket_test
+          uri: http://localhost:8081
+          order: 8081
+          predicates:
+            - Path=/usuarios/**
+          filters:
+            - RewritePath=/usuarios/(?<segment>.*), /usuarios/$\{segment}
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.ipc.netty: DEBUG
+    reactor.netty: DEBUG
+
+management.endpoints.web.exposure.include: '*'
